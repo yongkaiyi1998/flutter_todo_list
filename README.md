@@ -1,16 +1,35 @@
-# todolist
+# Simple To Do List
 
-A new Flutter project.
+## Screenshots
+
+<span>
+  <img src="https://github.com/user-attachments/assets/1572982a-74dc-4e0b-b428-eade17075b00" width="400">
+  <img src="https://github.com/user-attachments/assets/8bbd50d8-f031-4368-8f07-d578481a1222" width="400">
+</span>
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Clone project file and do the following step.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+You need to have **Flutter** installed on your pc.
+* [Install Flutter](https://flutter.dev/docs/get-started/install)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone the repository by using: 
+```
+git clone https://github.com/yongkaiyi1998/flutter_todo_list.git
+```
+2. Get the packages needed for the application, run this command:
+```
+flutter pub get
+```
+
+## Usage
+
+If you connected device or run emulator, you can run the app with this command:
+```
+flutter run
+```
