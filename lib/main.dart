@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'models/task.dart';
 
 void main() {
@@ -28,8 +30,31 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class TodoListScreenState extends State<TodoListScreen> {
-  final List<Task> _tasks = [];
+  List<Task> _tasks = [];
   final TextEditingController _taskController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  Future<void> _loadTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final tasksJson = prefs.getString('tasks');
+    if (tasksJson != null) {
+      final List<dynamic> decodedTasks = jsonDecode(tasksJson);
+      setState(() {
+        _tasks = decodedTasks.map((taskJson) => Task.fromJson(taskJson)).toList();
+      });
+    }
+  }
+
+  Future<void> _saveTasks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final tasksJson = jsonEncode(_tasks.map((task) => task.toJson()).toList());
+    prefs.setString('tasks', tasksJson);
+  }
 
   void _addTask() {
     if (_taskController.text.isEmpty) return;
@@ -37,18 +62,21 @@ class TodoListScreenState extends State<TodoListScreen> {
     setState(() {
       _tasks.add(Task(title: _taskController.text));
       _taskController.clear();
+      _saveTasks();
     });
   }
 
   void _toggleTaskCompletion(int index) {
     setState(() {
       _tasks[index].isCompleted = !_tasks[index].isCompleted;
+      _saveTasks();
     });
   }
 
   void _deleteTask(int index) {
     setState(() {
       _tasks.removeAt(index);
+      _saveTasks();
     });
   }
 
@@ -93,7 +121,10 @@ class TodoListScreenState extends State<TodoListScreen> {
                     },
                   ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      ),
                     onPressed: () => _deleteTask(index),
                   ),
                 );
